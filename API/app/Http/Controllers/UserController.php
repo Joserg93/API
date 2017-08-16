@@ -50,7 +50,6 @@ public function index() {
         }
     }
 
-   
      public function update(Request $request, $id)
     {
         try{

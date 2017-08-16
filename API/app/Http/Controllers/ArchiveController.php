@@ -52,8 +52,20 @@ class ArchiveController extends Controller
             return response('Someting bad', 500 );
         }
     }
-
    
+    public function profile(Request $request)
+    {
+        $id = $request->only('user_id');
+        $Archive = Archive::where('user_id', '=', $id)->get();
+        try {
+
+            return response()->json(($Archive), 200);
+        } catch (JWTException $e) {
+            // something went wrong whilst attempting to encode the token
+            return response()->json(['error' => 'could_not_create_token'], 500);
+        }
+    }
+
      public function update(Request $request, $id)
     {
         try{
