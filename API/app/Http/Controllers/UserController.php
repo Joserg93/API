@@ -11,11 +11,16 @@ use Redirect;
 use Log;
 class UserController extends Controller
 {
-public function index() {
+    /*
+        metodo index del User
+    */
+    public function index() {
         $User = User::all() ->toArray();
         return response() ->json($User);
     }
-
+    /*
+        metodo store del User
+    */
     public function store(Request $request)
     {
         try{
@@ -25,23 +30,21 @@ public function index() {
                 'password' => bcrypt($request->input('password')),
             ]);
             return response()->json(['status'=>true, 'Muchas gracias'], 200);
-
         } catch (\Exception $e){
             Log::critical("No se ha podido añadir: {$e->getCode()} , {$e->getLine()} , {$e->getMessage()}");
             return response('Someting bad', 500 );
         }
     }
-
-
+    /*
+        metodo show del User
+    */
     public function show($id)
     {
         try{
             $User = User::find($id);
-
             if(!$User){
                 return response()->json(['No existe...'], 404);
-            }
-            
+            }         
             return response()->json($User, 200);
 
         } catch (\Exception $e){
@@ -49,43 +52,38 @@ public function index() {
             return response('Someting bad', 500 );
         }
     }
-
-     public function update(Request $request, $id)
+    /*
+        metodo update del User
+    */
+    public function update(Request $request, $id)
     {
         try{
             $User = User::find($id);
-
             if(!$User){
                 return response()->json(['No existe...'], 404);
-            }
-            
+            }           
             $User->update($request->all());
-
             return response(array(
                 'error' => false,
                 'message' =>'User Modificado...',
                ),200);
-
         } catch (\Exception $e){
             Log::critical("No se ha podido añadir: {$e->getCode()} , {$e->getLine()} , {$e->getMessage()}");
             return response('Someting bad', 500 );
         }
     }
-
-
+    /*
+        metodo destroy del User
+    */
     public function destroy($id)
     {
         try{
             $User = User::find($id);
-
             if(!$User){
                 return response()->json(['No existe...'], 404);
-            }
-            
+            }          
             $User->delete();
-
             return response()->json('User eliminado..', 200);
-
         } catch (\Exception $e){
             Log::critical("No se ha podido añadir: {$e->getCode()} , {$e->getLine()} , {$e->getMessage()}");
             return response('Someting bad', 500 );

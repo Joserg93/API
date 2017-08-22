@@ -17,11 +17,15 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
     //return $request->user();
 //});
-
+/*
+	rutas sin autentificación
+*/
 Route::post('auth_login', 'AuthController@authenticate');
 Route::post('auth_email', 'AuthController@auth_email');
 Route::post('users', 'UserController@store');
-
+/*
+	rutas con autentificación
+*/
 Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::get('auth_session', 'AuthController@getAuthUser');
     Route::post('auth_user', 'AuthController@auth');

@@ -9,6 +9,9 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 class AuthController extends Controller
 {
+    /*
+        metodo para obtener el id del User
+    */
     public function auth(Request $request)
     {
         $email = $request->only('email');
@@ -16,11 +19,12 @@ class AuthController extends Controller
             $user = User::where('email', '=', $email)->first();
             return response()->json(($user->id), 200);
         } catch (JWTException $e) {
-            // something went wrong whilst attempting to encode the token
-            return response()->json(['error' => 'could_not_create_token'], 500);
+            return response()->json(['error' => 'email_not_found'], 500);
         }
     }
-
+    /*
+        metodo para verificar le existencia de un email en el sistema
+    */
     public function auth_email(Request $request)
     {
         $email = $request->only('email');
@@ -34,32 +38,28 @@ class AuthController extends Controller
             }
             
         } catch (JWTException $e) {
-            // something went wrong whilst attempting to encode the token
             return response()->json(['error' => 'aplication'], 500);
         }
     }
-
+    /*
+        metodo para verificar la expiración de un token
+    */
     public function getAuthUser(){
         return response()->json(['valid'],200);  
     }
-
+    /*
+        metodo para obtenr un token
+    */
     public function authenticate(Request $request)
     {
-        // grab credentials from the request
         $credentials = $request->only('email', 'password');
-
         try {
-            // attempt to verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials)) {
                 return response()->json(['error' => 'invalid_credentials'], 401);
             }
         } catch (JWTException $e) {
-            // something went wrong whilst attempting to encode the token
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
-
-        // all good so return the token
         return response()->json($token);
     }
-
 }

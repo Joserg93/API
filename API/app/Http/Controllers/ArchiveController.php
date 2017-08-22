@@ -12,11 +12,16 @@ use Redirect;
 use Log;
 class ArchiveController extends Controller
 {
+    /*
+        metodo index del Archive
+    */
     public function index() {
         $Archive = Archive::all() ->toArray();
         return response() ->json($Archive);
     }
-
+    /*
+        metodo store del Archive
+    */
     public function store(Request $request)
     {
         try{
@@ -33,8 +38,9 @@ class ArchiveController extends Controller
             return response('Someting bad', 500 );
         }
     }
-
-
+    /*
+        metodo show del Archive
+    */
     public function show($id)
     {
         try{
@@ -52,7 +58,9 @@ class ArchiveController extends Controller
             return response('Someting bad', 500 );
         }
     }
-   
+    /*
+        metodo profile del Archive
+    */
     public function profile(Request $request)
     {
         $id = $request->only('user_id');
@@ -65,8 +73,10 @@ class ArchiveController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
     }
-
-     public function update(Request $request, $id)
+    /*
+        metodo update del Archive
+    */
+    public function update(Request $request, $id)
     {
         try{
             $Archive = Archive::find($id);
@@ -87,8 +97,9 @@ class ArchiveController extends Controller
             return response('Someting bad', 500 );
         }
     }
-
-
+    /*
+        metodo destroy del Archive
+    */
     public function destroy($id)
     {
         try{
@@ -107,7 +118,9 @@ class ArchiveController extends Controller
             return response('Someting bad', 500 );
         }
     }
-
+    /*
+        metodo de encriptar
+    */
     function encrypt_string($input)
     {    
         $search = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',' ','1','2','3','4','5','6','7','8','9','0',',','.');
@@ -115,6 +128,9 @@ class ArchiveController extends Controller
         $input = str_ireplace($search,$replace,$input);
         return $input;
     }
+    /*
+        metodo de desencriptar
+    */
     function decrypt_string($input)
     {
         $search = array('☺','☻','♥','♦','♣','♠','•','◘','◙','♂','♀','♪','♫','☼','►','◄','↕','¶','§','▬','↨','↑','↓','→','←','∟','↔','▲','▼','ß','Ô','µ','þ','Þ','Û','±','¾','¹','³'); 
